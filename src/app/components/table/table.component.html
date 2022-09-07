@@ -1,0 +1,35 @@
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef> Level </th>
+            <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+            <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="proposerali">
+            <th mat-header-cell *matHeaderCellDef> Proposer(alias) </th>
+            <td mat-cell *matCellDef="let element"> <b>{{element.proposer ? element.proposer.alias : ""}}</b> </td>
+        </ng-container>
+
+        <ng-container matColumnDef="proposeradr">
+            <th mat-header-cell *matHeaderCellDef> Proposer(address) </th>
+            <td mat-cell *matCellDef="let element"> {{element.proposer ? element.proposer.address : ""}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="transactions">
+            <th mat-header-cell *matHeaderCellDef> Transactions </th>
+            <td mat-cell *matCellDef="let element"> {{element.transactions}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select page of blocks">
+    </mat-paginator>
+</div>
