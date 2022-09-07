@@ -6,15 +6,20 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { TableComponent } from './components/table/table.component';
+import { BlocksTableComponent } from './components/blocks-table/blocks-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+
+import { DetailsComponent } from './components/details/details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    TableComponent
+    BlocksTableComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +27,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     BrowserAnimationsModule,
     HttpClientModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

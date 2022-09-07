@@ -1,25 +1,28 @@
 import { Component, AfterViewInit, ViewChild, Input, SimpleChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { map, mergeMap } from 'rxjs/operators';
 
 import { TzktAPIService } from 'src/app/services/tzkt-api.service';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss']
+  selector: 'app-blocks-table',
+  templateUrl: './blocks-table.component.html',
+  styleUrls: ['./blocks-table.component.scss']
 })
-export class TableComponent implements AfterViewInit {
+export class BlocksTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['level', 'proposerali', 'proposeradr', 'transactions','timestamp' ];
   dataSource = new MatTableDataSource;
 
   blocks: any;
 
+  isLoadingResults = true;
+
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
-  constructor(private tzkt: TzktAPIService) { }
+  constructor(private tzkt: TzktAPIService, private router: Router) { }
 
   ngAfterViewInit(): void {
     this.tzkt.getBlocks().pipe(
@@ -41,11 +44,17 @@ export class TableComponent implements AfterViewInit {
         this.blocks = blocks
         this.dataSource = new MatTableDataSource(this.blocks)
         this.dataSource.paginator = this.paginator;
+        this.isLoadingResults = false
       },
       error: error => {
         console.log(error)
       }
     })
+  }
+
+  openDetails(row){
+    console.log(row.level)
+    this.router.navigateByUrl('/details/'+row.level);
   }
 
 }
