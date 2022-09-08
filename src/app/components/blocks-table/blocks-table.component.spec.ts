@@ -7,7 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatPaginatorHarness } from '@angular/material/paginator/testing';
-import { MatTableHarness } from '@angular/material/table/testing';
+import { MatRowHarness, MatTableHarness } from '@angular/material/table/testing';
 
 import { BlocksTableComponent } from './blocks-table.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -48,7 +48,7 @@ describe('BlocksTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('table', async () => {
+  describe('blocks table', async () => {
     it('should load data', async () => {
       expect(component.blocks.length).not.toEqual(0)
       expect(component.isLoadingResults).toBe(false);
@@ -85,6 +85,12 @@ describe('BlocksTableComponent', () => {
       //console.log(await table.getCellTextByColumnName())
       expect(celltext).not.toEqual(newCelltext);
     });
+
+    // it('should reroute to details page when a row is clicked', async () => {
+    //   let row = await loader.getHarness(MatRowHarness)
+    //   console.log(await row.getCellTextByColumnName())
+    //   //await row.click();
+    // });
 
   });
 
