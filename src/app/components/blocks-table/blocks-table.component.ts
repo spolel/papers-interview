@@ -16,11 +16,11 @@ export class BlocksTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['level', 'proposerali', 'proposeradr', 'transactions','timestamp' ];
   dataSource = new MatTableDataSource;
 
-  blocks: any = [];
+  blocks: any;
 
   isLoadingResults: boolean = true;
 
-  logging: boolean = false;
+  logging: boolean = true;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
