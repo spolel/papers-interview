@@ -7,12 +7,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  level: string;
+  level: number;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.level = this.route.snapshot.paramMap.get('level');
+    this.level = parseInt(this.route.snapshot.paramMap.get('level'));
   }
 
 }

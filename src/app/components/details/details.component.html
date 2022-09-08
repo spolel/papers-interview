@@ -1,2 +1,6 @@
-<p>details works!</p>
-<p>{{level}}</p>
+<div>
+    <app-navbar></app-navbar>
+    <h1>Block {{level}}</h1>
+    <h2>Transactions: </h2>
+    <app-transactions-table [level]="level" ></app-transactions-table>
+</div>
