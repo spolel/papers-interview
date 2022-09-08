@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { BlocksTableComponent } from '../blocks-table/blocks-table.component';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
