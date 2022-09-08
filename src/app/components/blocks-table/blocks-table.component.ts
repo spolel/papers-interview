@@ -16,9 +16,11 @@ export class BlocksTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['level', 'proposerali', 'proposeradr', 'transactions','timestamp' ];
   dataSource = new MatTableDataSource;
 
-  blocks: any;
+  blocks: any = [];
 
-  isLoadingResults = true;
+  isLoadingResults: boolean = true;
+
+  logging: boolean = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
 
@@ -40,7 +42,7 @@ export class BlocksTableComponent implements AfterViewInit {
       ))
     ).subscribe({
       next: blocks => {
-        console.log(blocks)
+        if(this.logging){console.log(blocks)}
         this.blocks = blocks
         this.dataSource = new MatTableDataSource(this.blocks)
         this.dataSource.paginator = this.paginator;
