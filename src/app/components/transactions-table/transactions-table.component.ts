@@ -17,6 +17,7 @@ export class TransactionsTableComponent implements AfterViewInit {
   dataSource = new MatTableDataSource;
 
   transactions: any;
+  totalTransactions: number = 0;
 
   isLoadingResults = true;
 
@@ -24,7 +25,7 @@ export class TransactionsTableComponent implements AfterViewInit {
 
   @Input() level: number;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private tzkt: TzktAPIService, private router: Router) { }
 
@@ -35,19 +36,18 @@ export class TransactionsTableComponent implements AfterViewInit {
     this.tzkt.getTransactionCount(this.level).subscribe({
       next: tcount => {
         if (this.logging) { console.log(tcount) }
-        this.paginator.length = tcount
+        this.totalTransactions = tcount
       },
       error: error => {
         console.log(error)
       }
     })
 
-    this.tzkt.getTransactionsPaged(this.level, this.paginator.pageIndex, this.paginator.pageSize).subscribe({
+    this.tzkt.getTransactionsPaged(this.level, 0, 10).subscribe({
       next: transactions => {
         if (this.logging) { console.log(transactions) }
         this.transactions = transactions
         this.dataSource = new MatTableDataSource(this.transactions)
-        //this.dataSource.paginator = this.paginator;
         this.isLoadingResults = false
       },
       error: error => {
@@ -56,15 +56,14 @@ export class TransactionsTableComponent implements AfterViewInit {
     })
   }
 
-  getPagedTransactions(event: PageEvent){
+  getNextTransactions(event: PageEvent){
     this.isLoadingResults = true
 
     this.tzkt.getTransactionsPaged(this.level, event.pageIndex, event.pageSize).subscribe({
       next: transactions => {
         if (this.logging) { console.log(transactions) }
         this.transactions = transactions
-        this.dataSource = new MatTableDataSource(this.transactions)
-        //this.dataSource.paginator = this.paginator;
+        this.dataSource.data = this.transactions
         this.isLoadingResults = false
       },
       error: error => {

@@ -1,4 +1,5 @@
 import { Component, AfterViewInit, ViewChild, Input, SimpleChanges } from '@angular/core';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -17,22 +18,24 @@ export class BlocksTableComponent implements AfterViewInit {
   dataSource = new MatTableDataSource;
 
   blocks: any;
-
+  totalBlocks: number = 0;
   isLoadingResults: boolean = true;
 
   logging: boolean = false;
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private tzkt: TzktAPIService, private router: Router) { }
 
   ngAfterViewInit(): void {
+    //console.log(this.paginator)
+
     this.isLoadingResults = true
     //get total number of block to set the total size of paginator
     this.tzkt.getTotalBlocks().subscribe({
       next: totalBlocks => {
         if (this.logging) { console.log(totalBlocks) }
-        this.paginator.length = totalBlocks
+        this.totalBlocks = totalBlocks
       },
       error: error => {
         console.log(error)
@@ -40,7 +43,7 @@ export class BlocksTableComponent implements AfterViewInit {
     })
 
     //load first blocks
-    this.tzkt.getBlocksPaged(this.paginator.pageIndex, this.paginator.pageSize).pipe(
+    this.tzkt.getBlocksPaged(0, 10).pipe(
       //for each block I am getting the transaction number and adding to to that block
       mergeMap(blocks => forkJoin(
         blocks.map(block =>
@@ -67,7 +70,7 @@ export class BlocksTableComponent implements AfterViewInit {
   }
 
   //on page event load new blocks based on page index and size
-  getPagedBlocks(event: PageEvent) {
+  getNextBlocks(event: PageEvent) {
     this.isLoadingResults = true
 
     this.tzkt.getBlocksPaged(event.pageIndex, event.pageSize).pipe(
@@ -87,7 +90,7 @@ export class BlocksTableComponent implements AfterViewInit {
       next: blocks => {
         if (this.logging) { console.log(blocks) }
         this.blocks = blocks
-        this.dataSource = new MatTableDataSource(this.blocks)
+        this.dataSource.data = this.blocks
         this.isLoadingResults = false
       },
       error: error => {

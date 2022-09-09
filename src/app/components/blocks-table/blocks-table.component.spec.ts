@@ -96,13 +96,22 @@ describe('BlocksTableComponent', () => {
 
 });
 
-class MockAppService {
+class MockAppService{
   getBlocks(): Observable<any> {
     return of(testBlocks);
   }
 
   getTransactionCount(): Observable<any> {
     return of([222]);
+  }
+
+  getTotalBlocks(): Observable<any> {
+    return of([testBlocks.length]);
+  }
+
+  getBlocksPaged(pageIndex: number, pageSize: number): Observable<any> {
+    let i = pageIndex*pageSize;
+    return of(testBlocks.slice(i,i+pageSize));
   }
 }
 
