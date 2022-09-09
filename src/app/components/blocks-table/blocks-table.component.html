@@ -34,7 +34,7 @@
         <!-- <mat-spinner *ngIf="isLoadingResults"></mat-spinner> -->
     </div>
 
-    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" (page)="getPagedBlocks($event)" showFirstLastButtons
         aria-label="Select page of blocks">
     </mat-paginator>
 </div>
